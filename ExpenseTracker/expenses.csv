@@ -1,1 +1,4 @@
-[{"id":1,"date":"Nov 3, 2025, 3:53:58 PM","value":99.95,"merchant":"Walmart"},{"id":2,"date":"Nov 3, 2025, 3:53:58 PM","value":85.75,"merchant":"Costco"},{"id":3,"date":"Nov 3, 2025, 3:53:58 PM","value":10000.0,"merchant":"Private Jet"}]
+id,date,value,merchant
+1,Mon Nov 03 16:39:32 CST 2025,99.95,Walmart
+2,Mon Nov 03 16:39:32 CST 2025,85.75,Costco
+3,Mon Nov 03 16:39:32 CST 2025,10000.0,Private Jet
