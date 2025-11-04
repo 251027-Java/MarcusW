@@ -3,6 +3,6 @@ import java.util.List;
 
 public interface IRepository {
 
-    List<Expense> readExpenses();
+    public List<Expense> loadExpenses();
     public void saveExpenses(List<Expense> expenses);
 }

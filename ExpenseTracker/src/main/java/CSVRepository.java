@@ -1,17 +1,21 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class CSVRepository implements IRepository {
 
-    private String filename = "expenses.csv";
+    private final String filename = "expenses.csv";
 
     public CSVRepository() {}
 
     @Override
-    public List<Expense> readExpenses() {
-        ArrayList<Expense> expenses = new ArrayList<>();
+    public List<Expense> loadExpenses() {
+        List<Expense> expenses = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(this.filename))) {
             String line = reader.readLine();
             String[] values;
