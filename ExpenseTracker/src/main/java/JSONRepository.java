@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class JSONRepository implements IRepository {
 
@@ -14,6 +15,37 @@ public class JSONRepository implements IRepository {
     private final Gson gson = new Gson();
 
     public JSONRepository() {}
+
+    @Override
+    public void createExpense(Expense expense) {
+        List<Expense> expenses = this.loadExpenses();
+        expenses.add(expense);
+        this.saveExpenses(expenses);
+    }
+
+    @Override
+    public Expense readExpense(int id) {
+        return loadExpenses().stream()
+                .filter(e -> e.getId() == id)
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Override
+    public void updateExpense(Expense expense) {
+        List<Expense> expenses = loadExpenses();
+        List<Expense> updatedExpenses = expenses.stream()
+                .map(e -> (e.getId() == expense.getId()) ? expense : e)
+                .collect(Collectors.toList());
+        saveExpenses(updatedExpenses);
+    }
+
+    @Override
+    public void deleteExpense(int id) {
+        List<Expense> expenses = loadExpenses();
+        expenses.removeIf(e -> e.getId() == id);
+        saveExpenses(expenses);
+    }
 
     @Override
     public List<Expense> loadExpenses() {

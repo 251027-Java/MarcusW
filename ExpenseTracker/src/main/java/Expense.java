@@ -16,6 +16,22 @@ public class Expense {
     }
 
     // Methods
+    public int getId() {
+        return this.id;
+    }
+
+    public double getValue() {
+        return this.value;
+    }
+
+    public Date getDate() {
+        return this.date;
+    }
+
+    public String getMerchant() {
+        return this.merchant;
+    }
+
     @Override
     public String toString() {
         return "Expense [id=" + this.id + ", date=" + this.date + ", value=" + this.value + ", merchant=" + this.merchant + "]";

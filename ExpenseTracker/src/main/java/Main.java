@@ -1,6 +1,4 @@
-import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 
 // As a user, I want to track my expenses so that I can build/submit an expense report at the end of the week.
 // As a user, I need to include the date, value, and merchant to include on my expense report.
@@ -8,31 +6,134 @@ import java.util.ArrayList;
 public class Main {
     // fields
 
+    public static Scanner scan = new Scanner(System.in);
+    public static Map<Integer, String> options = new LinkedHashMap<>(Map.of(1, "Create Expense", 2, "View Expenses", 3, "Update Expense", 4, "Remove Expense", 5, "Sum Expenses", 6, "Exit"));
+
     // methods
     static void main() {
         System.out.println("Expense Tracker Starting...");
-        List<Expense> expenses = new ArrayList<>();
+        ExpenseService service = new ExpenseService(new JSONRepository());
+        //doDefault(service);
 
-        System.out.println("Creating a test expense:");
-        expenses.add(new Expense(1, new Date(), 99.95, "Walmart"));
-        expenses.add(new Expense(2, new Date(), 85.75, "Costco"));
-        expenses.add(new Expense(3, new Date(), 10000, "Private Jet"));
-        expenses.add(new Expense(4, new Date(), 500, "Target"));
-        expenses.add(new Expense(5, new Date(), 12.65, "Whataburger"));
+//        System.out.println(service.sumExpenses());
+//        service.printExpenses();
+        user(service);
+    }
 
-        System.out.println(expenses);
+    private static void doDefault(ExpenseService service) {
+        System.out.println("Starting Default implementation");
 
-        IRepository repo = new JSONRepository();
-        //IRepository repo = new TextRepository();
-        //IRepository repo = new CSVRepository();
+        System.out.println("Creating Expenses");
+        Expense expense = service.createNewExpense(4, 500, "Target");
+        expense = service.createNewExpense(5, 12.65, "Whataburger");
 
-        System.out.println("Writing expenses to file");
-        repo.saveExpenses(expenses);
+        System.out.println("Reading Expenses");
+        service.printExpenses();
 
-        System.out.println("Reading expenses from file");
-        List<Expense> newExpenses = repo.loadExpenses();
-        System.out.println(newExpenses);
+        System.out.println("Updating Expense");
+        Expense newExpense = new Expense(4, new Date(), 505.45, "Target");
+        service.updateExpense(newExpense);
+        service.printExpenses();
 
-        System.out.println("Expense Tracker Closing...");
+        System.out.println("Deleting Expenses");
+        System.out.println("Expense deleted: " + service.deleteExpense(4));
+        System.out.println("Expense deleted: " + service.deleteExpense(5));
+
+        service.printExpenses();
+    }
+
+    private static void user(ExpenseService service) {
+        int option = 0;
+        do {
+            option = getUserOption();
+            if (option == 1) {
+                createUserExpense(service);
+            } else if (option == 2){
+                System.out.println();
+                service.printExpenses();
+                System.out.println();
+            } else if (option == 3) {
+                System.out.println("TBI");
+            } else if (option == 4) {
+                System.out.println("TBI");
+            } else if (option == 5) {
+                System.out.println(service.sumExpenses());
+            }
+        } while (option != 6);
+    }
+
+    private static int getUserOption() {
+
+        int option;
+        while (true) {
+            System.out.println("Repository Options: ");
+            for (Map.Entry<Integer, String> entry : options.entrySet()) {
+                System.out.println("\t" + entry.getKey() + " : " + entry.getValue());
+            }
+            System.out.print("Please enter a number option from above (1-" + String.valueOf(options.size()) + "): ");
+            String input = scan.nextLine().strip();
+            try {
+                option = Integer.parseInt(input);
+                if (!options.containsKey(option)) {
+                    System.out.println("Invalid option. Please try again.");
+                } else {
+                    return option;
+                }
+            } catch (Exception e) {
+                System.out.println("Not a valid number. Please try again");
+            }
+        }
+    }
+
+    private static void createUserExpense(ExpenseService service) {
+        // get all input for a single expense
+        int id = getUserExpenseId();
+        double value = getUserExpenseValue();
+        String merchant = getUserExpenseMerchant();
+        service.createNewExpense(id, value, merchant);
+    }
+
+    private static int getUserExpenseId() {
+        // get input for expense Id
+        int id = 0;
+        while (true) {
+            System.out.print("Enter Expense ID: ");
+            String input = scan.nextLine().strip();
+            try {
+                id = Integer.parseInt(input);
+                return id;
+            } catch (Exception e) {
+                System.out.println("Invalid ID, please try again");
+            }
+        }
+    }
+
+    private static double getUserExpenseValue() {
+        // get input for expense value
+        double value = 0;
+        while (true) {
+            System.out.print("Enter Expense Value: ");
+            String input = scan.nextLine().strip();
+            try {
+                value = Double.parseDouble(input);
+                return value;
+            } catch (Exception e) {
+                System.out.println("Invalid Value, please try again");
+            }
+        }
+    }
+
+    private static String getUserExpenseMerchant() {
+        // get input for expense merchant
+        String merchant = "";
+        while (true) {
+            System.out.print("Enter Expense Merchant: ");
+            merchant = scan.nextLine().strip();
+            if (merchant.equalsIgnoreCase("")) {
+                System.out.println("Invalid Merchant, please try again");
+            } else {
+                return merchant;
+            }
+        }
     }
 }
