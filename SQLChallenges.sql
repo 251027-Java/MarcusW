@@ -40,7 +40,7 @@ SELECT * FROM customer WHERE (country = 'Brazil');
 SELECT * FROM employee WHERE (title = 'Sales Support Agent');
 
 -- Retrieve a list of all countries in billing addresses on invoices
-SELECT billing_country FROM invoice;
+SELECT DISTINCT billing_country FROM invoice;
 
 -- Retrieve how many invoices there were in 2009, and what was the sales total for that year?
 SELECT COUNT(*) as num_invoices, SUM(total) as sales_total FROM invoice WHERE EXTRACT(YEAR FROM invoice_date) = 2009;
@@ -83,6 +83,7 @@ INNER JOIN employee ON employee.employee_id = customer.support_rep_id;
 SELECT CONCAT(employee.first_name, ' ', employee.last_name) as Sales_Agent, SUM(invoice.total) as total FROM invoice 
 INNER JOIN customer ON customer.customer_id = invoice.customer_id
 INNER JOIN employee ON employee.employee_id = customer.support_rep_id
+WHERE EXTRACT(YEAR FROM invoice.invoice_date) = 2009
 GROUP BY Sales_Agent ORDER BY total DESC LIMIT 1;
 
 -- How many customers are assigned to each sales agent?

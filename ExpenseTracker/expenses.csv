@@ -1,4 +1,6 @@
 id,date,value,merchant
-1,Mon Nov 03 16:39:32 CST 2025,99.95,Walmart
-2,Mon Nov 03 16:39:32 CST 2025,85.75,Costco
-3,Mon Nov 03 16:39:32 CST 2025,10000.0,Private Jet
+1,Tue Nov 04 10:37:13 CST 2025,99.95,Walmart
+2,Tue Nov 04 10:37:13 CST 2025,85.75,Costco
+3,Tue Nov 04 10:37:13 CST 2025,10000.0,Private Jet
+4,Tue Nov 04 10:37:13 CST 2025,500.0,Target
+5,Tue Nov 04 10:37:13 CST 2025,12.65,Whataburger

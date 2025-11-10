@@ -12,12 +12,33 @@ public class Main {
     // methods
     static void main() {
         System.out.println("Expense Tracker Starting...");
-        ExpenseService service = new ExpenseService(new JSONRepository());
+        //IRepository repo = new H2Repository();
+        IRepository repo = new PostgreSQLRepository();
+        ExpenseService service = new ExpenseService(repo);
         //doDefault(service);
 
-//        System.out.println(service.sumExpenses());
-//        service.printExpenses();
-        user(service);
+
+        Expense expense = service.createNewExpense(4, 500, "Target");
+        expense = service.createNewExpense(5, 600, "Walmart");
+        expense = service.createNewExpense(6, 12.65, "Whataburger");
+
+        System.out.println("Printing:");
+        service.printExpenses();
+
+        System.out.println("Updating:");
+        System.out.println(service.updateExpense(new Expense(5, new Date(),599.99, "Walmart")));
+        System.out.println(repo.readExpense(5));
+
+        System.out.println("Deleting:");
+        System.out.println(service.deleteExpense(5));
+        System.out.println(service.deleteExpense(5));
+
+
+
+
+        //System.out.println(service.sumExpenses());
+        //service.printExpenses();
+        //user(service);
     }
 
     private static void doDefault(ExpenseService service) {
