@@ -13,7 +13,7 @@ public class Main {
     static void main() {
         System.out.println("Expense Tracker Starting...");
         //IRepository repo = new H2Repository();
-        IRepository repo = new PostgreSQLRepository();
+        IRepository repo = new MongoDBRepository();
         ExpenseService service = new ExpenseService(repo);
         //doDefault(service);
 
@@ -22,16 +22,25 @@ public class Main {
         expense = service.createNewExpense(5, 600, "Walmart");
         expense = service.createNewExpense(6, 12.65, "Whataburger");
 
+        System.out.println(repo.readExpense(4));
+
+        System.out.println("Updated Expense 4: " + service.updateExpense(new Expense(4, new Date(), 515, "Target")));
+        System.out.println(repo.readExpense(4));
+        System.out.println("Updated Expense 200: " + service.updateExpense(new Expense(200, new Date(), 505, "Target")));
+
+        System.out.println("Delete expense 6: " + service.deleteExpense(6));
+        System.out.println("Delete expense 200: " + service.deleteExpense(200));
+
         System.out.println("Printing:");
         service.printExpenses();
 
-        System.out.println("Updating:");
-        System.out.println(service.updateExpense(new Expense(5, new Date(),599.99, "Walmart")));
-        System.out.println(repo.readExpense(5));
+//        System.out.println("Updating:");
+//        System.out.println(service.updateExpense(new Expense(5, new Date(),599.99, "Walmart")));
+//        System.out.println(repo.readExpense(5));
 
-        System.out.println("Deleting:");
-        System.out.println(service.deleteExpense(5));
-        System.out.println(service.deleteExpense(5));
+//        System.out.println("Deleting:");
+//        System.out.println(service.deleteExpense(5));
+//        System.out.println(service.deleteExpense(5));
 
 
 
